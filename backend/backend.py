@@ -1,9 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Query, HTTPException
 import random
 import uuid
 import sqlite3
 import json
+from dotenv import load_dotenv
+import os
 
 app = FastAPI()
 
@@ -88,6 +91,14 @@ def generate_conspiracy():
     return conspiracy[0].upper() + conspiracy[1:]
 
 
+load_dotenv()
+
+PASSWORD = os.getenv("ADMIN_PASSWORD")
+
+def verify_password(password: str):
+    if password != PASSWORD:
+        raise HTTPException(status_code=403, detail="Unauthorized")
+
 @app.get("/generate")
 def get_conspiracy():
     conspiracy = generate_conspiracy()
@@ -101,7 +112,9 @@ def get_conspiracy():
     return {"id": conspiracy_id, "conspiracy": conspiracy, "sources": sources}
 
 @app.get("/conspiracy/all")
-def get_all_conspiracies():
+def get_all_conspiracies(password: str = Query(...)):
+    verify_password(password)
+
     cursor.execute("SELECT id, conspiracy, sources FROM conspiracies")
     rows = cursor.fetchall()
     
@@ -111,7 +124,9 @@ def get_all_conspiracies():
     return {"conspiracies": conspiracies}
 
 @app.get("/conspiracy/count")
-def count_conspiracies():
+def count_conspiracies(password: str = Query(...)):
+    verify_password(password)
+
     cursor.execute("SELECT COUNT(*) FROM conspiracies")
     count = cursor.fetchone()[0]
     return {"count": count}
@@ -123,3 +138,11 @@ def get_conspiracy_by_id(conspiracy_id: str):
     if row:
         return {"id": conspiracy_id, "conspiracy": row[0], "sources": json.loads(row[1])}
     return {"error": "Conspiracy not found"}
+
+@app.delete("/conspiracy/empty")
+def empty_conspiracies(password: str = Query(...)):
+    verify_password(password)
+    
+    cursor.execute("DELETE FROM conspiracies")
+    conn.commit()
+    return {"message": "All conspiracies deleted successfully"}
