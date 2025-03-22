@@ -54,7 +54,7 @@ export default function MandelaMachine() {
         if (conspiracy) {
             const permalink = `${window.location.origin}?id=${conspiracy.id}`;
             navigator.clipboard.writeText(permalink);
-            window.history.pushState({}, '', `conspiracy?id=${conspiracyID}`);
+            window.history.pushState({}, '', `?id=${conspiracyID}`);
         }
     };
 
