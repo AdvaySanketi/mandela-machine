@@ -27,7 +27,7 @@ export default function MandelaMachine() {
         setLoading(true);
         try {
             const response = await axios.get<Conspiracy>(
-                'http://127.0.0.1:8000/generate'
+                'https://mandela-machine.onrender.com/generate'
             );
             setConspiracy(response.data);
             setConspiracyID(response.data.id);
@@ -41,7 +41,7 @@ export default function MandelaMachine() {
         setLoading(true);
         try {
             const response = await axios.get<Conspiracy>(
-                `http://127.0.0.1:8000/conspiracy/${id}`
+                `https://mandela-machine.onrender.com/conspiracy/${id}`
             );
             setConspiracy(response.data);
         } catch (error) {
@@ -55,7 +55,6 @@ export default function MandelaMachine() {
             const permalink = `${window.location.origin}?id=${conspiracy.id}`;
             navigator.clipboard.writeText(permalink);
             window.history.pushState({}, '', `conspiracy?id=${conspiracyID}`);
-            alert('Permalink copied to clipboard!');
         }
     };
 
@@ -102,12 +101,12 @@ export default function MandelaMachine() {
 
             <div className='absolute bottom-10 flex items-center gap-2 text-gray-600 transition hover:text-black'>
                 <a
-                    href='https://github.com/AdvaySanketi'
+                    href='https://github.com/AdvaySanketi/mandela-machine/'
                     target='_blank'
                     rel='noopener noreferrer'
                     className='flex items-center gap-2 text-gray-600 transition hover:text-black'
                 >
-                    <FaGithub className='text-2xl' />
+                    {FaGithub({ className: 'text-2xl' }) as JSX.Element}
                     <span className='font-mono text-sm'>View on GitHub</span>
                 </a>
             </div>
