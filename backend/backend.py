@@ -45,7 +45,31 @@ PEOPLE = ["Elon Musk", "Mark Zuckerberg", "Taylor Swift", "The Pope"]
 CREATURES = ["reptilian", "cyborg", "ancient alien", "time traveler"]
 TECHNOLOGIES = ["the internet", "5G", "quantum computing", "cryptocurrency"]
 OFFICIAL_STORIES = ["scientists", "government agencies", "tech companies", "aliens"]
+ACTIONS = ["controlling world governments", "spying on the public", "manipulating financial markets", "hiding the truth"]
 YEARS = ["1947", "1969", "2001", "2020"]
+
+PARTS = {
+    "intro": [
+        "{group} has long been suspected of {action}.",
+        "Many believe {event} was secretly controlled by {group}.",
+        "{group} has been orchestrating {event} for decades.",
+        "{person} might actually be working for {group} since {year}.",
+        "What if {technology} was never invented by {official_story}, but rather by {group}?"
+    ],
+    "middle": [
+        "Some theorists suggest it's a cover-up for {coverup}.",
+        "This was all done in an attempt to {motive}.",
+        "The truth about {event} has been hidden since {year}.",
+        "{person} may be a {creature} secretly influencing world events.",
+        "{technology} could be a tool designed to {motive}."
+    ],
+    "end": [
+        "But of course, the mainstream media refuses to report it.",
+        "Strangely, all evidence of this has been systematically erased.",
+        "Some leaked documents from {year} hint at this possibility.",
+        "Why isn't this being investigated further?"
+    ],
+}
 
 SOURCE_TEMPLATES = [
     "https://{site}/news/{keyword}",
@@ -75,7 +99,7 @@ def generate_sources():
     ]
     return sources
 
-def generate_conspiracy():
+def generate_conspiracy_old():
     template = random.choice(TEMPLATES)
     conspiracy = template.format(
         group=random.choice(GROUPS),
@@ -90,6 +114,31 @@ def generate_conspiracy():
     )
     return conspiracy[0].upper() + conspiracy[1:]
 
+def generate_conspiracy():
+    intro = random.choice(PARTS["intro"]).format(
+        group=random.choice(GROUPS),
+        event=random.choice(EVENTS),
+        person=random.choice(PEOPLE),
+        year=random.choice(YEARS),
+        technology=random.choice(TECHNOLOGIES),
+        official_story=random.choice(OFFICIAL_STORIES),
+        action=random.choice(ACTIONS)
+    )
+
+    middle = random.choice(PARTS["middle"]).format(
+        coverup=random.choice(COVERUPS),
+        motive=random.choice(MOTIVES),
+        event=random.choice(EVENTS),
+        person=random.choice(PEOPLE),
+        creature=random.choice(CREATURES),
+        technology=random.choice(TECHNOLOGIES),
+        year=random.choice(YEARS)
+    )
+
+    end = random.choice(PARTS["end"]).format(year=random.choice(YEARS))
+
+    conspiracy = f"{intro} {middle} {end}"
+    return conspiracy[0].upper() + conspiracy[1:]
 
 load_dotenv()
 

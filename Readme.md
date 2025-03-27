@@ -27,6 +27,20 @@ The Mandela Machine is a website that generates **random conspiracy theories** e
 - SQLite for lightweight storage
 - Faker library to generate random conspiracies
 
+## 🌀 How Conspiracies Are Created  
+
+Look, I could have used some fancy AI model like GPT-4 or LLaMA to generate deep, mind-blowing conspiracy theories… but let’s be real—I have **no money for API calls**, and running a local model would probably set my laptop on fire.  
+
+Instead, this project uses **structured randomness**. That means a mix of pre-written templates and a bunch of weird words thrown together to make something that *almost* sounds legit. Here’s how it works:  
+
+1. **Mad Libs on Steroids** – The system picks a random template like:  
+   > "{group} has been controlling {event} since {year} to {motive}."  
+2. **Random Words Fill in the Gaps** – The `{group}`, `{event}`, `{year}`, and `{motive}` are replaced with random values like:  
+   > "The Illuminati has been controlling AI advancements since 1969 to manipulate the economy."  
+3. **Fake Sources for Maximum Chaos** – It adds links to totally *real* websites like `truthwatchers.com` or `deepstatefiles.org`.  
+
+So yeah, no AI, no OpenAI bills, just **pure, low-budget nonsense**.  
+
 ## 📂 Project Structure
 ```
 mandela-machine/
